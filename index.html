@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nguyễn Khánh Duy - 1822030329 | CI/CD Demo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="badge">GitHub Actions CI/CD</div>
+            <h1>Nguyễn Khánh Duy - 1822030329</h1>
+            <p class="subtitle">Bài tập cá nhân: Triển khai Website Tự động với GitHub Actions & GitHub Pages</p>
+        </header>
+
+        <main>
+            <div class="card info-card">
+                <h2>Thông Tin Sinh Viên</h2>
+                <ul>
+                    <li><strong>Họ và tên:</strong> Nguyễn Khánh Duy</li>
+                    <li><strong>Mã số sinh viên:</strong> 1822030329</li>
+                    <li><strong>Môn học:</strong> DevOps / Quản lý cấu hình & Triển khai phần mềm</li>
+                    <li><strong>Trạng thái Pipeline:</strong> <span class="status-badge" id="pipelineStatus">Hoạt động tự động (Success)</span></li>
+                    <li><strong>Phiên bản:</strong> <span id="versionText">Phiên bản 1.0</span></li>
+                </ul>
+            </div>
+
+            <div class="card interactive-card">
+                <h2>Kiểm Tra Tính Năng JavaScript</h2>
+                <p>Bấm nút bên dưới để kiểm tra tương tác của file <code>script.js</code>:</p>
+                <button id="actionBtn" class="btn">Nhấn vào đây</button>
+                <div id="outputMessage" class="output-box hidden"></div>
+            </div>
+
+            <div class="card steps-card">
+                <h2>Quy Trình Pipeline (CI/CD Workflow)</h2>
+                <div class="workflow-steps">
+                    <div class="step-item">
+                        <span class="step-num">1</span>
+                        <div><strong>Code & Push:</strong> Đẩy mã nguồn lên nhánh <code>main</code></div>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">2</span>
+                        <div><strong>Job Check:</strong> Kiểm tra đủ 3 file & thẻ <code>&lt;title&gt;</code></div>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">3</span>
+                        <div><strong>Job Deploy:</strong> Tự động xuất bản lên GitHub Pages</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Nguyễn Khánh Duy - MSSV: 1822030329. Triển khai tự động bằng GitHub Actions.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

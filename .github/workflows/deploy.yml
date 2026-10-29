@@ -1,0 +1,82 @@
+name: Deploy Website to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  check:
+    name: Check Website Files & Title
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Kiểm tra tối thiểu 3 file (index.html, style.css, script.js)
+        run: |
+          echo "=========================================="
+          echo "Kiểm tra sự tồn tại của các file yêu cầu..."
+          echo "=========================================="
+          
+          REQUIRED_FILES=("index.html" "style.css" "script.js")
+          MISSING_FILES=0
+
+          for file in "${REQUIRED_FILES[@]}"; do
+            if [ ! -f "$file" ]; then
+              echo "❌ Thiếu file: $file"
+              MISSING_FILES=$((MISSING_FILES + 1))
+            else
+              echo "✅ Đã tìm thấy: $file"
+            fi
+          done
+
+          if [ $MISSING_FILES -gt 0 ]; then
+            echo "Pipeline thất bại: Repository thiếu $MISSING_FILES file bắt buộc!"
+            exit 1
+          fi
+
+      - name: Kiểm tra thẻ <title> trong index.html
+        run: |
+          echo "=========================================="
+          echo "Kiểm tra thẻ <title> trong file index.html..."
+          echo "=========================================="
+
+          if grep -qi "<title>.*</title>" index.html || grep -qi "<title>" index.html; then
+            echo "✅ index.html có thẻ <title> hợp lệ."
+          else
+            echo "❌ Lỗi: Không tìm thấy thẻ <title> trong index.html!"
+            exit 1
+          fi
+
+  deploy:
+    name: Deploy to GitHub Pages
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: check
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
